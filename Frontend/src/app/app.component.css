@@ -1,0 +1,26 @@
+.btnside {
+   background-color: white; /* רקע לבן */
+  color: #333; /* טקסט אפור כהה */
+  border: 1.5px solid #ccc; /* גבול עדין */
+  /* border-radius: 12px; */
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 5px;
+}
+
+.btnside:hover {
+    background-color: #f2f2f2; /* רקע אפור בהיר */
+  border-color: #dbd7d7; /* גבול טיפה מודגש */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.btnside.active {
+  background-color: #000; /* כשהכפתור נבחר */
+  color: #fff;
+  border-color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
