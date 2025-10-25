@@ -1,15 +1,49 @@
-<div style="width: 20vw; border-right-style: solid; border-right-width: 0.1vw; margin-top: -1vh;">
+<!-- אם המשתמש מחובר -->
+<div *ngIf="currentUser; else loginPage" style="width: 20vw; border-right: 0.1vw solid; margin-top: -1vh; height: 100vh; margin-bottom: -2vh;">
   <img src="assets/logo.png" alt="Logo" style="width: 10vw; height: 20vh;" />
   <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
+
   <h4 style="text-align: right; margin-right: 1.5vw; font-family: 'Calibri';">תפריט ראשי</h4>
-  <div style="text-align: right; align-items: start; font-family: 'Calibri'; margin-right: 1vw; ">
-    <button class="btnside" (click)="toggleClass">קטלוג הספרים</button>
+
+  <div style="text-align: right; align-items: start; font-family: 'Calibri'; margin-right: 1vw;">
+    <button class="btnside" (click)="toggleClass('catalog')">קטלוג הספרים</button>
     <br/>
-    <button class="btnside" (click)="toggleClass">ההשאלות שלי</button>
+    <button class="btnside" (click)="toggleClass('loans')">ההשאלות שלי</button>
     <br/>
-    <button class="btnside" style="margin-bottom: 15vh;" (click)="toggleClass">ניהול</button>
-    <br/>
+    <button class="btnside" style="margin-bottom: 5vh;" (click)="toggleClass('management')">ניהול</button>
     <br/>
   </div>
+
   <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
+
+  <!-- פרטי המשתמש -->
+  <div style="text-align: right; margin-top: 2vh; font-family: 'Calibri'; margin-right: 1vw;">
+    <p>{{ currentUser?.email }}</p>
+    <button (click)="logout()" style="background-color: #ddd; border: none; padding: 0.5rem 1rem; cursor: pointer;">התנתקות</button>
+  </div>
 </div>
+
+<!-- אם המשתמש לא מחובר -->
+<ng-template #loginPage>
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+    <img src="assets/logo.png" alt="Logo" style="width: 10vw; height: 20vh;" />
+    <h2 style="font-family: 'Calibri';"> Google התחברות עם </h2>
+
+    <!-- כפתור התחברות אמיתי של Google -->
+  <div id="g_id_onload"
+     [attr.data-client_id]="googleClientId"
+     data-auto_prompt="false"
+     data-callback="handleCredentialResponse">
+</div>
+
+
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
+  </div>
+</ng-template>

@@ -1,15 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
+declare const google: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-   isActive: boolean = false;
+export class AppComponent implements OnInit {
+  currentUser: { email: string } | null = null;
+  googleClientId = environment.googleClientId;
+  constructor(private ngZone: NgZone) {} // הזרקת NgZone
 
-  toggleClass() {
-    this.isActive = !this.isActive;
+  ngOnInit(): void {
+    const storedUser = localStorage.getItem('currentUser');
+    if (storedUser) {
+      this.currentUser = JSON.parse(storedUser);
+    }
+
+    // הפונקציה שקוראים לה מה־callback של Google
+    (window as any).handleCredentialResponse = (response: any) => {
+      const user = this.parseJwt(response.credential);
+
+      // ריצה בתוך Angular zone כדי שהUI יתעדכן
+      this.ngZone.run(() => {
+        this.currentUser = { email: user.email };
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+      });
+    };
+  }
+
+  toggleClass(section: string): void {
+    console.log(`Clicked: ${section}`);
+  }
+
+  logout(): void {
+    localStorage.removeItem('currentUser');
+    this.currentUser = null;
+  }
+
+  parseJwt(token: string) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64));
   }
 }
