@@ -1,12 +1,13 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../environments/environment';
+import { RouterModule } from '@angular/router';
 declare const google: any;
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

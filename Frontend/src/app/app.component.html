@@ -1,26 +1,36 @@
 <!-- אם המשתמש מחובר -->
-<div *ngIf="currentUser; else loginPage" style="width: 20vw; border-right: 0.1vw solid; margin-top: -1vh; height: 100vh; margin-bottom: -2vh;">
-  <img src="assets/logo.png" alt="Logo" style="width: 10vw; height: 20vh;" />
-  <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
+<div *ngIf="currentUser; else loginPage" style="display: flex; height: 100vh;">
 
-  <h4 style="text-align: right; margin-right: 1.5vw; font-family: 'Calibri';">תפריט ראשי</h4>
+  <!-- Sidebar - 20vw -->
+  <div style="width: 20vw; border-right: 0.1vw solid; margin-top: -1vh; height: 100vh; margin-bottom: -2vh;">
+    <img src="assets/logo.png" alt="Logo" style="width: 10vw; height: 20vh;" />
+    <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
 
-  <div style="text-align: right; align-items: start; font-family: 'Calibri'; margin-right: 1vw;">
-    <button class="btnside" (click)="toggleClass('catalog')">קטלוג הספרים</button>
-    <br/>
-    <button class="btnside" (click)="toggleClass('loans')">ההשאלות שלי</button>
-    <br/>
-    <button class="btnside" style="margin-bottom: 5vh;" (click)="toggleClass('management')">ניהול</button>
-    <br/>
+    <h4 style="text-align: right; margin-right: 1.5vw; font-family: 'Calibri';">תפריט ראשי</h4>
+
+    <div style="text-align: right; align-items: start; font-family: 'Calibri'; margin-right: 1vw;">
+      <button class="btnside" [routerLink]="['/catalog']">קטלוג הספרים</button>
+      <br/>
+      <button class="btnside" [routerLink]="['/loans']">ההשאלות שלי</button>
+      <br/>
+      <button class="btnside" [routerLink]="['/management']" style="margin-bottom: 5vh;">ניהול</button>
+      <br/>
+    </div>
+
+    <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
+
+    <!-- פרטי המשתמש -->
+    <div style="text-align: right; margin-top: 2vh; font-family: 'Calibri'; margin-right: 1vw;">
+      <p>{{ currentUser?.email }}</p>
+      <button (click)="logout()" style="background-color: #ddd; border: none; padding: 0.5rem 1rem; cursor: pointer;">התנתקות</button>
+    </div>
   </div>
 
-  <div style="background-color: rgb(165, 157, 157); width: 21vw; height: 0.1vh; margin-left: -1vw;"></div>
-
-  <!-- פרטי המשתמש -->
-  <div style="text-align: right; margin-top: 2vh; font-family: 'Calibri'; margin-right: 1vw;">
-    <p>{{ currentUser?.email }}</p>
-    <button (click)="logout()" style="background-color: #ddd; border: none; padding: 0.5rem 1rem; cursor: pointer;">התנתקות</button>
+  <!-- Content Area - 80vw -->
+  <div style="width: 80vw; padding: 1rem;">
+    <router-outlet></router-outlet>
   </div>
+
 </div>
 
 <!-- אם המשתמש לא מחובר -->
@@ -30,12 +40,11 @@
     <h2 style="font-family: 'Calibri';"> Google התחברות עם </h2>
 
     <!-- כפתור התחברות אמיתי של Google -->
-  <div id="g_id_onload"
-     [attr.data-client_id]="googleClientId"
-     data-auto_prompt="false"
-     data-callback="handleCredentialResponse">
-</div>
-
+    <div id="g_id_onload"
+         [attr.data-client_id]="googleClientId"
+         data-auto_prompt="false"
+         data-callback="handleCredentialResponse">
+    </div>
 
     <div class="g_id_signin"
          data-type="standard"
